@@ -19,11 +19,20 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="false"/>
+        <!-- Clé réservée aux tests, jamais utilisée en production. -->
+        <env name="APP_KEY" value="base64:TdDOK/jVMITYhkgGHgA5/fqgGdeXfxfh9H686xGspqY="/>
+        <env name="APP_URL" value="http://localhost"/>
+        <env name="FRONTEND_URL" value="http://localhost"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
-        <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
-        <!-- <env name="DB_DATABASE" value=":memory:"/> -->
+        <!-- Tests isolés : base SQLite en mémoire, jamais la base locale.
+             force="true" est indispensable : sans cela, les variables déjà
+             chargées depuis .env par « php artisan test » sont conservées et
+             les tests écraseraient la base de développement. -->
+        <env name="DB_CONNECTION" value="sqlite" force="true"/>
+        <env name="DB_DATABASE" value=":memory:" force="true"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
